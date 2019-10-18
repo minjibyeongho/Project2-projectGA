@@ -1,0 +1,247 @@
+index.jsp
+login.html
+signup.html
+signup.jsp
+
+-- member --
+create table member(
+id varchar(10) primary key,
+pw varchar(10) not null,
+name varchar(20) not null,
+gender varchar(10),
+tel varchar(15),
+year varchar(4),
+month varchar(2),
+day varchar(2),
+email1 varchar(10),
+email2 varchar(10),
+addr varchar(30)
+);
+
+num : 게시글 번호, title : 제목, content : 내용, writedate : 글 작성 시간, dpw : 게시글 비밀번호, bid : 작성자 아이디
+
+-- board --
+create table board(
+num int primary key auto_increment,
+title varchar(30),
+content text,
+date datetime,
+bpw varchar(10),
+bid varchar(20),
+hit int
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+writedate datetime not null default now();
+
+auto_increment -> mysql에서 적용시키는 방법
+now()함수 mysql에서 적용시키는 방법 -> dao에서 insert시에 자바코드에서 calender를 이용하여 집어 넣을 수 있도록
+
+-- travel --
+create table travel(
+name varchar(30),
+region varchar(30),
+place varchar(30),
+theme varchar(30),
+member varchar(30),
+picture varchar(30)
+);
+
+-- comment --
+create table comment(
+cnum int primary key auto_increment,
+cid varchar(10),
+comment text,
+date datetime,
+bnum int
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- list --
+CREATE TABLE list(
+  id varchar(20),   
+  name varchar(20) primary key,
+  region varchar(20), 
+  place varchar(20), 
+  theme varchar(20), 
+  member varchar(20), 
+  picture varchar(20) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+작성순서(6.11)
+index.jsp(로그인 페이지) - 회원정보 수정틀 -
+
+로그인으로 넘어가는 것 변수 확인(잘못된 로그인 정보 넘길 때의 처리가 미흡)
+
+6/13
+- 회원정보 jsp 끌고오는 것까지 구현
+	- 수정, 삭제, 메인페이지로 이동하는 것 구현
+
+- 로그인 시 제약사항들 구현(아이디 미입력, 패스워드 미입력, 중복확인 등)
+	- id(o), pw(x) -> 구현완료
+	- id(x) -> null이유를 모르겠음...;;
+
+- 아이디 찾기 / 비밀번호 찾기
+	login.jsp -> findid.jsp로 넘어가서 정보 입력 후 다시 넘어오면 login.jsp에서 아이디 표시 되도록(구현 OK post방식으로 넘기도록)
+	login.jsp -> findpw.jsp로 넘어가서 정보 입력 후 다시 넘어오면 login.jsp에서 아이디 비밀번호 되도록(구현 OK post방식으로 넘기도록)
+entity 11개
+
+구현 및 보강할 사항(6/14 금)
+- 게시판 부분 구현 시작(6/12일 수업 내용 참고하여 작성)
+
+- 로그인 후 회원정보 페이지에서 projectga로 가는 경우 로그인이 안된 메인 페이지로 넘어감
+- 로그인 시 제약사항(잘못된 id 넘어왔을 때 처리 관련)
+
+6/15 토 ( 생각 정리 )
+- 게시판 구현( 
+비로그인(index.html) - 전체 게시판 조회만 가능하도록 
+로그인(index.jsp) - 글쓰기, 수정, 삭제 -> 본인 게시글 수정 가능 넘어오는 정보에 따라서 다르게끔 구현 )
+(board.jsp - 전체 게시글 올라오는(DB에 저장되어 있는 정보를 다 가져와서 for문 이용 띄우는 것으로 구현 page / 글쓰기, 수정, 삭제 기능 탑재)
+ -> boardcheck.jsp - board.jsp에서 정보(id, title, content, etc 변수 정보)를 받아서 삽입, 갱신, 삭제를 분기하여 구별  
+ -> boardInsert.jsp - 글쓰기 기능 구현 페이지(id, title, content, etc 등의 변수로 구현)
+ -> boardupdate.jsp / boarddelete.jsp
+
+제약조건 : 글 등록 시 pw를 등록하여 수정, 삭제는 pw입력 후 가능하게 끔
+
+6/20
+- 로그인, 회원가입 시 id, pw에 keyup 이용해서 DB와 연동하여 확인하는 것 작성( 진행중 )
+- 로그인 시 에러 처리하는 것들 작성(id 잘못, pw 잘못 등) ok
+
+6/22
+error 상황(수정 필요)
+- 로그인 후 project GA 누르면 로그인 해제 되는 것( OK)
+
+- 게시판 글 삭제시 비밀번호 잘못입력하면 경고문구없이 바로 돌아오는 것
+
+추가해볼 사항
+- ajax이용한 페이지
+- 민중이 한거 연계해서 공개글, 비공개글 지정가능 -> 공개글에 관련해서 동행 제의 등을 가능하게 하는것
+- 추가사이트 관련해서 크롤링을 통한 사이트 연결하는 페이지 구현
+- 채연씨와 함께 기능적인 면에서 더 구현가능한 것 확인
+
+
+6/24
+- 댓글을 db에 저장해서 그대로 불러오는 것 구현(댓글 DB를 하나더 추가해서) 
+	게시글 작성자 id, 댓글작성자 id, 댓글내용, 작성일시
+- 크롤링 확인
+- smarteditor 입력, 수정, 삭제
+- boardView : 삭제, 수정
+- 게시판 댓글 구현
+
+6/26
+- 댓글을 db에 저장해서 그대로 불러오는 것 구현(댓글 DB를 하나더 추가해서) 
+	게시글 작성자 id, 댓글작성자 id, 댓글내용, 작성일시
+- 크롤링 확인
+
+- 게시판 댓글 구현, id : 내용 수정,삭제(아이디값 비교해서 같으면 수정, 삭제 가능하도록)
+	id, 값 가져오도록 일단 설정
+
+	댓글db에 들어갈 내용
+	- 댓글 번호(리스트를 불러와서 최신 것을 올리기 위해서, 게시판 list에서 땡겨오는 것과 똑같게)
+	- 작성자id
+	- 내용
+	- 작성날짜
+	- 게시글 번호
+db에 넣는 것까지는 완료
+
+6/27해야할 내용, comment db에 들어간 값을 가져와서 뿌리는 것
+
+6/27
+- 2차 종합본 만들기
+
+
+수정 필요 사항
+- boardView CSS 확인(틀 어디선가 가져와봐서 적용)
+
+
+error 상황(수정 필요)
+
+
+※ 참고사항
+session 관련 내용 big09 - login.jsp에 위치
+big11에 장바구니 관련 내용(session이용, cookie이용 방법)
+
+완료사항
+- 댓글 수정 / 삭제( ok )
+- boardUpdate.jsp에서 내용을 불러오면
+	***내용을 적어주세요*** 내용이 계속 따라붙어옴..;
+- smarteditor 입력, 수정, 삭제(ok)
+- boardView : 삭제(ok), 수정(ok)
+- 로그인 후 project GA 누르면 로그인 해제 되는 것( OK )
+- id 중복확인( OK )
+- memberinfo에서 수정, 탈퇴, 메인페이지 구현 확인( OK )
+- boardlist 페이징 작업 ( OK )
+	ex ) 50개의 게시물 20개씩 하면
+	1page -> 0~19까지 
+	2page -> 20~39까지
+	3page -> 40~49까지
+
+	기본 페이지 변수 pg = 1;
+	표시할 페이지 수 rowsize = 20;
+	아래에 보일 페이지 최대 개수 = 5;
+	
+	int start = (pg*rowsize) - (rowsize-1);
+	int end = (pg*rowsize)
+
+page
+pg = 1,2
+
+rowsize = 10 (게시물 수)
+block = 5 (
+
+pg = 1
+start = 10-9 = 1 / end = 10
+
+
+
+startPage = 1	/	endPage = 5(고정)
+
+pg = 2
+start = 20-9 = 11	/	end = 20
+
+block을 list.size를 이용해서 작성하면?
+block = list.size()
+
+pg = 1
+start = 1 / end = 10
+
+pg = 2
+start = 11 / end = 20
+
+<% final int ROWSIZE = 4; // 한페이지에 보일 게시물 수 
+final int BLOCK = 5; // 아래에 보일 페이지 최대개수 1~5 / 6~10 / 11~15 식으로 5개로 고정 
+int pg = 1; //기본 페이지값 
+if(request.getParameter("pg")!=null) { //받아온 pg값이 있을때, 다른페이지일때 pg = Integer.parseInt(request.getParameter("pg")); // pg값을 저장 } 
+
+int start = (pg*ROWSIZE) - (ROWSIZE-1); // 해당페이지에서 시작번호(step2) 
+
+int end = (pg*ROWSIZE); // 해당페이지에서 끝번호(step2) int allPage = 0; // 전체 페이지수 
+
+int startPage = ((pg-1)/BLOCK*BLOCK)+1; // 시작블럭숫자 (1~5페이지일경우 1, 6~10일경우 6) 
+
+int endPage = ((pg-1)/BLOCK*BLOCK)+BLOCK; // 끝 블럭 숫자 (1~5일 경우 5, 6~10일경우 10) %>
+
+
+오류수정
+list는 tarvel의 모든 것을 가져옴
+in = false;
+
+
+6/28
+최종합본1
+
+- 최근본목록 추가가 안되는 것
+
+- 민중이꺼 합치기(민중 - 채연 연결되는 것( 로그인 / 비로그인 ) 분기
+
+ 
+
++ 기능 추가(참고사이트 크롤링)
+
+
+댓글 수정, 삭제 시 id 없으면 못하게끔(조건문)
+
+한글 로그인시 에러
+
+
+
+

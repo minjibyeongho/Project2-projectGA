@@ -1,0 +1,6 @@
+"id","pw","name","gender","tel","year","month","day","email1","email2","addr"
+test1,test1,test1,man,"010-0000-0000","1995","07","07",test1,naver.com,test1
+test2,test2,test2,woman,"010-1111-1111","1990","06","17",test2,naver.com,test2
+test3,test3,test3,man,"010-2222-2222","1895","10","10",test3,naver.com,test3
+test4,test4,test4,man,"010-3333-3333","2000","07","01",test4,naver.com,test4
+test5,"1234",test5555555,woman,"01012341234","1997","05","17",sdf,naver.com,sdf
